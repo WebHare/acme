@@ -28,7 +28,6 @@ export const decodeBase64 = (input: string): Uint8Array => {
   return bytes;
 };
 
-/* unused
 export const decodeBase64Url = (input: string): Uint8Array =>
   decodeBase64(
     input
@@ -36,4 +35,3 @@ export const decodeBase64Url = (input: string): Uint8Array =>
       .replace(/_/g, "/")
       .padEnd(input.length + (4 - (input.length % 4)) % 4, "="),
   );
-*/
