@@ -22,3 +22,7 @@ export const encodeBase64 = (
     alphabet: "base64",
   });
 };
+
+export const decodeBase64Url = (input: string): Uint8Array<ArrayBuffer> => {
+  return Uint8Array.fromBase64(input, { alphabet: "base64url" });
+};
