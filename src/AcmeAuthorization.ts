@@ -93,6 +93,7 @@ export class AcmeAuthorization {
   /** The authorization url uniquely identifies the authorization and for retrieving {@link AcmeAuthorizationObjectSnapshot}. */
   readonly url: string;
   #domain?: string;
+  #wildcard?: boolean;
   #challenges?: readonly AcmeChallenge[];
 
   /**
@@ -107,6 +108,15 @@ export class AcmeAuthorization {
       );
     }
     return this.#domain;
+  }
+
+  /**
+   * If this authorization is associated with a wildcard domain
+   *
+   * Analogous to the `wildcard` in {@link AcmeAuthorizationObjectSnapshot}
+   */
+  get wildcard(): boolean | undefined {
+    return this.#wildcard;
   }
 
   /**
@@ -176,6 +186,7 @@ export class AcmeAuthorization {
     }
 
     authorization.#domain = authorizationResponse.identifier.value;
+    authorization.#wildcard = authorizationResponse.wildcard;
 
     return authorization;
   }
