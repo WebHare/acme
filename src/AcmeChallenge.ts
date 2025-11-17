@@ -216,6 +216,7 @@ export class Dns01Challenge extends AcmeChallenge {
   async getDnsRecordAnswer(): Promise<DnsTxtRecord> {
     return {
       domain: this.authorization.domain,
+      wildcard: this.authorization.wildcard,
       name: `_acme-challenge.${this.authorization.domain}.`,
       type: "TXT",
       content: await this.digestToken(),
@@ -228,6 +229,7 @@ export class Dns01Challenge extends AcmeChallenge {
  */
 export interface DnsTxtRecord {
   domain: string;
+  wildcard?: boolean;
   name: string;
   type: "TXT";
   content: string;
@@ -268,6 +270,7 @@ export class Http01Challenge extends AcmeChallenge {
   async getHttpResource(): Promise<HttpResource> {
     return {
       domain: this.authorization.domain,
+      wildcard: this.authorization.wildcard,
       url: `http://${this.authorization.domain}/.well-known/acme-challenge/${this.token}`,
       name: this.token,
       content: await this.keyAuthorization(),
@@ -280,6 +283,7 @@ export class Http01Challenge extends AcmeChallenge {
  */
 export interface HttpResource {
   domain: string;
+  wildcard?: boolean;
   url: string;
   name: string;
   content: string;

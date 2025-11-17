@@ -198,7 +198,7 @@ export class AcmeOrder {
 
       const domainToAuthorizationMap = new Map(
         authorizations.map((authorization) => [
-          authorization.domain,
+          (authorization.wildcard ? "*." : "") + authorization.domain,
           authorization,
         ]),
       );
