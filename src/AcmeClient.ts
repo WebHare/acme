@@ -7,7 +7,7 @@ import {
   AcmeError,
   BadNonceError,
 } from "./errors.ts";
-import { generateKeyPair, importHmacKey } from "./utils/crypto.ts";
+import { generateKeyPair, importHmacKey, type KeyPairAlgorithm } from "./utils/crypto.ts";
 import { emailsToAccountContacts } from "./utils/emailsToAccountContacts.ts";
 import { jws, jwsFetch } from "./utils/jws.ts";
 
@@ -147,10 +147,12 @@ export class AcmeClient {
   async createAccount(
     {
       emails,
-      externalAccountBinding
+      externalAccountBinding,
+      keyPairAlgorithm,
     }: {
       emails: readonly string[];
       externalAccountBinding?: ExternalAccountBinding;
+      keyPairAlgorithm?: KeyPairAlgorithm;
     },
   ): Promise<AcmeAccount> {
     const keyPair = await generateKeyPair();
@@ -204,6 +206,7 @@ export class AcmeClient {
       client: this,
       url: accountUrl,
       keyPair,
+      keyPairAlgorithm,
     });
   }
 
@@ -212,7 +215,13 @@ export class AcmeClient {
    *
    * @see https://datatracker.ietf.org/doc/html/rfc8555#section-7.3.1
    */
-  async login({ keyPair }: { keyPair: CryptoKeyPair }): Promise<AcmeAccount> {
+  async login({
+    keyPair,
+    keyPairAlgorithm,
+  }: {
+    keyPair: CryptoKeyPair;
+    keyPairAlgorithm?: KeyPairAlgorithm;
+  }): Promise<AcmeAccount> {
     const response = await this.jwsFetch(this.directory.newAccount, {
       privateKey: keyPair.privateKey,
       protected: {
@@ -249,6 +258,7 @@ export class AcmeClient {
       client: this,
       url: accountUrl,
       keyPair,
+      keyPairAlgorithm,
     });
   }
 }
