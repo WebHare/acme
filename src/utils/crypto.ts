@@ -3,7 +3,7 @@ import { decodeBase64Url } from "./encoding.ts";
 export type KeyPairAlgorithm = "ec" | "rsa" | "rsa-4096";
 
 export function getAlgorithmProperties(keyPairAlgorithm: KeyPairAlgorithm) {
-  switch (keyPairAlgorithm){
+  switch (keyPairAlgorithm) {
     case "ec":
       return {
         name: "ECDSA",
@@ -46,8 +46,8 @@ export async function importHmacKey(hmacKey: string): Promise<CryptoKey> {
 
 export async function sign(
   key: CryptoKey,
-  data: Uint8Array,
-): Promise<Uint8Array> {
+  data: Uint8Array<ArrayBuffer>,
+): Promise<Uint8Array<ArrayBuffer>> {
   const signature = await crypto.subtle.sign(
     {
       name: key.algorithm.name,

@@ -17,7 +17,7 @@ export const encodeBase64 = (input: ArrayBuffer | string | Uint8Array) => {
   return btoa(str);
 };
 
-export const decodeBase64 = (input: string): Uint8Array => {
+export const decodeBase64 = (input: string): Uint8Array<ArrayBuffer> => {
   const binaryString = atob(input);
 
   const bytes = Uint8Array.from(
@@ -28,7 +28,7 @@ export const decodeBase64 = (input: string): Uint8Array => {
   return bytes;
 };
 
-export const decodeBase64Url = (input: string): Uint8Array =>
+export const decodeBase64Url = (input: string): Uint8Array<ArrayBuffer> =>
   decodeBase64(
     input
       .replace(/-/g, "+")
