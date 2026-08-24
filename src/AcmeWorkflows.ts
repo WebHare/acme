@@ -126,9 +126,9 @@ export const requestCertificate = async (
 
       await new Promise((res) => setTimeout(res, delayAfterDnsRecordsConfirmed));
 
-      await Promise.all(
-        dns01Challenges.map(async (challenge) => await challenge.submit()),
-      );
+      for (const challenge of dns01Challenges) {
+        await challenge.submit();
+      }
     } else if (updateHttpResources) {
       const http01Challenges = acmeOrder.authorizations.map((authorization) => {
         const challenge = authorization.findHttp01Challenge();
@@ -150,9 +150,9 @@ export const requestCertificate = async (
 
       await updateHttpResources(expectedRecords);
 
-      await Promise.all(
-        http01Challenges.map(async (challenge) => await challenge.submit()),
-      );
+      for (const challenge of http01Challenges) {
+        await challenge.submit();
+      }
     }
 
     await acmeOrder.pollStatus({ pollUntil: "ready", timeout });
